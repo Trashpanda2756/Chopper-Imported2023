@@ -7,23 +7,37 @@
 
 package frc.robot;
 
-import java.util.function.DoubleSupplier;
-import java.util.function.IntSupplier;
-
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandGroupBase;
+
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import frc.robot.commands.*;
-import frc.robot.JMaster;
+import frc.robot.commands.Exhale_2;
+import frc.robot.commands.Fire_1;
+import frc.robot.commands.Fire_2;
+import frc.robot.commands.InhaleCommand;
+import frc.robot.commands.InhaleExhale_1;
+import frc.robot.commands.Inhale_1;
+import frc.robot.commands.IntakeReverseCommandGroup;
+import frc.robot.commands.MecanumCommand;
+import frc.robot.commands.RotateTurretCommand;
 
 //import java.util.Properties;
-
-import frc.robot.subsystems.*;
+import frc.robot.subsystems.ChopperDrive;
+import frc.robot.subsystems.ChopperTurret;
+import frc.robot.subsystems.HoodActuator;
+import frc.robot.subsystems.HoodFlywheels;
+import frc.robot.subsystems.Hopper;
+import frc.robot.subsystems.IntakeActuator;
+import frc.robot.subsystems.IntakeMotor;
+import frc.robot.subsystems.LiftActuator;
+import frc.robot.subsystems.LiftMotor;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -151,8 +165,12 @@ public class RobotContainer
         //   final JoystickButton fullSpeed = new JoystickButton(m_rightJoystick, 11);
 
         // ADDING NESSICARY COMMANDS
-        final Fire_1 mFire_1 = new Fire_1(m_hoodFlywheels, m_liftMotor);
-        final Fire_2 mFire_2 = new Fire_2(m_hopper, m_liftActuator);
+        final Fire_1 m_Fire_1 = new Fire_1(m_hoodFlywheels, m_liftMotor);
+        final Fire_2 m_Fire_2 = new Fire_2(m_hopper, m_liftActuator);
+        final InhaleExhale_1 m_Inhale_1 = new InhaleExhale_1(m_intakeActuator);
+        final InhaleCommand m_Inhale_2 = new InhaleCommand(m_hopper, m_intakeMotor);
+        final InhaleExhale_1 m_Exhale_1 = new InhaleExhale_1(m_intakeActuator);
+        final Exhale_2 m_Exhale_2 = new Exhale_2(m_intakeMotor, m_hopper);
         
           
     // For Gamepad in XInput mode
@@ -230,7 +248,13 @@ public class RobotContainer
 //        colorReadIR.whenPressed(new ReadIRCommand(m_vanaWhite));
 //        colorReadProximity.whenPressed(new ReadProximityCommand(m_vanaWhite));
 //        colorMatch.whenPressed(new MatchColorCommand(m_vanaWhite));
-        inhale.whileTrue(new IntakeSequenceCommandGroup(m_intakeMotor, m_hopper, m_intakeActuator));
+
+
+        inhale.whileTrue(Commands.parallel(m_Inhale_1, /* Sends intake out */
+        new RunCommand( () -> {}).withTimeout(0.5) /* 1/2 sec wait for intake to go out */
+        .andThen(m_Inhale_2))); /* Starts intake rollers and hopper */
+
+
         // intakeInButton.whenPressed(new InstantCommand(() -> m_intakeActuator.intakeIn()));
         // intakeOutButton.whenPressed(new InstantCommand(() -> m_intakeActuator.intakeOut()));
 
@@ -249,7 +273,11 @@ public class RobotContainer
                     // System.out.println("No. I quit low!");
                     // m_pewPewII.setMotor(0.0);
                 // }));
-        exhale.whileTrue(new IntakeReverseCommandGroup(m_intakeMotor, m_hopper, m_intakeActuator));
+
+
+        exhale.whileTrue(Commands.parallel(m_Exhale_1, /* Sends intake out */
+        new RunCommand( () -> {}).withTimeout(0.5) /* 1/2 sec wait for intake to go out */
+        .andThen(m_Exhale_2))); /* Starts intake rollers and hopper */
 
 
         // turretOverrideButton.whileHeld(new TurretHumanOverride(m_headCannon, () -> m_rightJoystick.getRawAxis(2) ));
@@ -277,7 +305,9 @@ public class RobotContainer
         // });
 
 
-        fire.whileTrue(mFire_1.withTimeout(2.0).andThen(mFire_2)/*new FireSequenceCommandGroup(m_hoodFlywheels, m_hopper, m_liftActuator, m_liftMotor)*/);
+        fire.whileTrue(Commands.parallel(m_Fire_1, /* Starts Flywheels and Lift Motors */
+            new RunCommand( () -> {}).withTimeout(2.0) /* 2 sec delay for spin up */
+            .andThen(m_Fire_2))); /* Actuates lift and starts hopper motor */
 
 
         greenFlywheelSpeed.whileTrue(new InstantCommand(() -> {

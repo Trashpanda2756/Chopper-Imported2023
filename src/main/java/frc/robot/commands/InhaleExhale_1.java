@@ -5,41 +5,33 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Hopper;
-import frc.robot.subsystems.LiftActuator;
+import frc.robot.subsystems.IntakeActuator;
 
-public class Fire_2 extends CommandBase {
+public class InhaleExhale_1 extends CommandBase {
 
   // Alocating Local Instances
-  Hopper m_hopper;
-  LiftActuator m_liftActuator;
+  IntakeActuator m_intakeActuator;
 
-  /** Creates a new Fire_2. */
-  public Fire_2(Hopper hopper, LiftActuator liftActuator) {
+  /** Creates a new inhale_1. */
+  public InhaleExhale_1(IntakeActuator intakeActuator) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_hopper = hopper;
-    m_liftActuator = liftActuator;
+    m_intakeActuator = intakeActuator;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_hopper.hopperSpinCounterClockwiseFast();
-    m_liftActuator.engage();
+    m_intakeActuator.intakeOut();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    // m_hopper.hopperSpinCounterClockwiseFast();
-    // m_liftActuator.engage();
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_hopper.hopperStop();
-    m_liftActuator.disengage();
+    m_intakeActuator.intakeIn();
   }
 
   // Returns true when the command should end.

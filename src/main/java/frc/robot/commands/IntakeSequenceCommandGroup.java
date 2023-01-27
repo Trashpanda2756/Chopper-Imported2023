@@ -20,7 +20,7 @@ public class IntakeSequenceCommandGroup extends SequentialCommandGroup {
             new InstantCommand(() -> {
                     intakeActuator.intakeOut();
                 }),
-                new InhaleCommand(hopper, intakeMotor, intakeActuator)
+                new InhaleCommand(hopper, intakeMotor)
             );
     }
 }

@@ -13,16 +13,14 @@ public class InhaleCommand extends CommandBase {
 
     private final Hopper m_hopper;
     private final IntakeMotor m_intakeMotor;
-    private final IntakeActuator m_intakeActuator;
 
     private final LogWrapper mLog = new LogWrapper(this.getClass().getName());
     private final PeriodicLogger mPLog = new PeriodicLogger(mLog, 50);
 
-    public InhaleCommand(Hopper hopper, IntakeMotor intakeMotor, IntakeActuator intakeActuator) {
+    public InhaleCommand(Hopper hopper, IntakeMotor intakeMotor) {
         m_hopper = hopper;
         m_intakeMotor = intakeMotor;
-        m_intakeActuator = intakeActuator;
-        addRequirements(m_hopper, m_intakeMotor, m_intakeActuator);
+        addRequirements(m_hopper, m_intakeMotor);
     }
 
     @Override
@@ -46,6 +44,5 @@ public class InhaleCommand extends CommandBase {
         mLog.debug(this.getClass().getName() + ":Inhale command ending");
         m_hopper.hopperStop();
         m_intakeMotor.stop();
-        m_intakeActuator.intakeIn();
     }
 }
