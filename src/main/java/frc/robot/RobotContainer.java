@@ -149,6 +149,10 @@ public class RobotContainer
 
         //   final JoystickButton halfSpeed = new JoystickButton(m_rightJoystick, 10);
         //   final JoystickButton fullSpeed = new JoystickButton(m_rightJoystick, 11);
+
+        // ADDING NESSICARY COMMANDS
+        final Fire_1 mFire_1 = new Fire_1(m_hoodFlywheels, m_liftMotor);
+        final Fire_2 mFire_2 = new Fire_2(m_hopper, m_liftActuator);
         
           
     // For Gamepad in XInput mode
@@ -273,7 +277,7 @@ public class RobotContainer
         // });
 
 
-        fire.whileTrue(new FireSequenceCommandGroup(m_hoodFlywheels, m_hopper, m_liftActuator, m_liftMotor));
+        fire.whileTrue(mFire_1.withTimeout(2.0).andThen(mFire_2)/*new FireSequenceCommandGroup(m_hoodFlywheels, m_hopper, m_liftActuator, m_liftMotor)*/);
 
 
         greenFlywheelSpeed.whileTrue(new InstantCommand(() -> {
