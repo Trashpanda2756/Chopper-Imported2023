@@ -18,9 +18,9 @@ package frc.robot;
 public final class Constants {
     public static final int kMinTurretEncoderValue = -2000;
     public static final int kMaxTurretEncoderValue = 2000;
-    public static int DRIVE_MOTOR_FR = 2;
     public static int DRIVE_MOTOR_FL = 1;
-    public static int DRIVE_MOTOR_BR = 4;
+    public static int DRIVE_MOTOR_FR = 4;
+    public static int DRIVE_MOTOR_BR = 2;
     public static int DRIVE_MOTOR_BL = 3;
     // public static int ELEVATOR_STOPPER = 9;
     public static final String GAMEPAD = "Logitech Gamepad";

@@ -23,7 +23,6 @@ import frc.robot.commands.Fire_1;
 import frc.robot.commands.Fire_2;
 import frc.robot.commands.InhaleCommand;
 import frc.robot.commands.InhaleExhale_1;
-import frc.robot.commands.Inhale_1;
 import frc.robot.commands.IntakeReverseCommandGroup;
 import frc.robot.commands.MecanumCommand;
 import frc.robot.commands.RotateTurretCommand;
@@ -94,9 +93,9 @@ public class RobotContainer
             // normal mech
             if( true ) {
                 m_driveDrive.setDefaultCommand(new MecanumCommand(
-                    () -> -1 * Math.signum(m_joySticks.getLY()) * Math.pow(m_joySticks.getLY(), 2), // leftY -> driveCartesian.xSpeed: Forward is positive.
-                    () -> Math.signum(m_joySticks.getLX()) * Math.pow(m_joySticks.getLX(), 2), // leftX -> driveCartesian.ySpeed: Right is positive.
-                    () -> Math.signum(m_joySticks.getRX()) * Math.pow(m_joySticks.getRX() , 2), // rightZ -> driveCartesian.zRotation: Clockwise is positive.
+                    () -> Math.signum(m_joySticks.getLY()) * Math.pow(m_joySticks.getLY(), 2), // leftX -> driveCartesian.ySpeed: Right is positive.
+                    () -> Math.signum(m_joySticks.getLX()) * Math.pow(m_joySticks.getLX(), 2), // leftY -> driveCartesian.xSpeed: Forward is positive.
+                    () -> -1 * Math.signum(m_joySticks.getRX()) * Math.pow(m_joySticks.getRX() , 2), // rightZ -> driveCartesian.zRotation: Clockwise is positive.
                     // () -> getAngle() * -1, //uncomment this line for field oriented
                     m_driveDrive
                 ));
@@ -149,9 +148,9 @@ public class RobotContainer
         //   final JoystickButton leftTurretFire = new JoystickButton(m_leftJoystick, 4);
         //   final JoystickButton rightTurretFire = new JoystickButton(m_leftJoystick, 5);
           
-          final JoystickButton redFlywheelSpeed = new JoystickButton(m_joySticks.lStick, 4);
-          final JoystickButton blueFlywheelSpeed = new JoystickButton(m_joySticks.lStick, 3);
-          final JoystickButton yellowFlywheelSpeed = new JoystickButton(m_joySticks.lStick, 2);
+          final JoystickButton redFlywheelSpeed = new JoystickButton(m_joySticks.lStick, 2);
+          final JoystickButton blueFlywheelSpeed = new JoystickButton(m_joySticks.lStick, 4);
+          final JoystickButton yellowFlywheelSpeed = new JoystickButton(m_joySticks.lStick, 3);
           final JoystickButton greenFlywheelSpeed = new JoystickButton(m_joySticks.lStick, 1);
  
           final JoystickButton inhale = new JoystickButton(m_joySticks.lStick, 6);
@@ -311,18 +310,22 @@ public class RobotContainer
 
 
         greenFlywheelSpeed.whileTrue(new InstantCommand(() -> {
+            System.out.println("speed set green");
             m_hoodFlywheels.flywheelSpeedGreen();
         }));
-
+        
         yellowFlywheelSpeed.whileTrue(new InstantCommand(() -> {
+            System.out.println("speed set yellow");
             m_hoodFlywheels.flywheelSpeedYellow();
         }));
-
+        
         blueFlywheelSpeed.whileTrue(new InstantCommand(() -> {
+            System.out.println("speed set blue");
             m_hoodFlywheels.flywheelSpeedBlue();
         }));
-
+        
         redFlywheelSpeed.whileTrue(new InstantCommand(() -> {
+            System.out.println("speed set red");
             m_hoodFlywheels.flywheelSpeedRed();
         }));
         

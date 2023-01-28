@@ -69,7 +69,7 @@ public class JMaster {
         switch (joyType) {
             case Constants.GAMEPAD:
                 if (lStick != null) {
-                    return lStick.getRawAxis(1);
+                    return lStick.getRawAxis(4);
                 }
         }
         return 0.0;
@@ -79,7 +79,7 @@ public class JMaster {
         switch (joyType) {
             case Constants.GAMEPAD:
                 if (lStick != null) {
-                    return lStick.getRawAxis(5);
+                    return lStick.getRawAxis(1);
                 }
 
         }
@@ -111,7 +111,7 @@ public class JMaster {
         switch (joyType) {
             case Constants.GAMEPAD:
                 if (lStick != null) {
-                    return lStick.getRawAxis(4);
+                    return lStick.getRawAxis(5);
                 }
         }
         return 0.0;
