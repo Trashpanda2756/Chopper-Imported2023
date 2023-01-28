@@ -59,7 +59,7 @@ public class ChopperDrive extends SubsystemBase {
     private NetworkTableEntry rearRightSpeedEntry;
     private NetworkTableEntry speedMultiplierEntry;
 
-    private double m_speedMultiplier = 1.0;
+    private double m_speedMultiplier = 0.70;
 
 
     private static final LogWrapper mLog = new LogWrapper(ChopperDrive.class.getName());
@@ -214,14 +214,14 @@ public class ChopperDrive extends SubsystemBase {
         //System.out.println("leftY: " + leftY + " leftX: " + leftX + " rightZ: " + rightZ);
         // Caution!!! We swap "X" and "Y"s here because the "Y" stick becomes the "X" direction.
 
-        double turnscalar = 1.0 - Math.abs(rightZ);
+        // double turnscalar = 1.0 - Math.abs(rightZ);
 
-if(leftX > 0.3) {
+        if(leftX > 0.3) {
 
-    rightZ *= 0.4; 
-}
+            rightZ *= 0.4; 
+        }
 
-        leftX*= turnscalar;
+        // leftX*= turnscalar;
 
 
         leftX *= m_speedMultiplier;
@@ -379,11 +379,11 @@ if(leftX > 0.3) {
     }
 
     public void setHalfSpeed() {
-        m_speedMultiplier = 0.6;
+        // m_speedMultiplier = 0.6;
     }
 
     public void setFullSpeed() {
-        m_speedMultiplier = 1.0;
+        // m_speedMultiplier = 1.0;
     }
 
     public void setClimbSpeed() {
