@@ -7,8 +7,15 @@
 
 package frc.robot;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.logging.LogManager;
+
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.IterativeRobotBase;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -18,12 +25,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.logging.LogWrapper;
 import frc.robot.logging.PeriodicLogger;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.logging.LogManager;
-
 public class Robot extends TimedRobot {
     RobotContainer robotContainer;
     CommandBase m_selectedCommand;
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
 
     private static LogWrapper mLog;
     private PeriodicLogger mLogPeriodic;
+    private final PowerDistribution m_PDP = new PowerDistribution();
 
     @Override
     public void robotInit() {
@@ -104,11 +106,12 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
     }
-
+    
     @Override
     public void teleopInit() {
         if (m_selectedCommand != null) {
             m_selectedCommand.cancel();
         }
+        // System.out.println("Shooter motor current draw: " + m_PDP.getCurrent(12));
     }
 }

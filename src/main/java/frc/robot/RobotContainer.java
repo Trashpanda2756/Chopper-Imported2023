@@ -12,6 +12,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -23,6 +24,7 @@ import frc.robot.commands.Fire_1;
 import frc.robot.commands.Fire_2;
 import frc.robot.commands.InhaleCommand;
 import frc.robot.commands.InhaleExhale_1;
+import frc.robot.commands.Inhale_3;
 import frc.robot.commands.IntakeReverseCommandGroup;
 import frc.robot.commands.MecanumCommand;
 import frc.robot.commands.RotateTurretCommand;
@@ -63,6 +65,7 @@ public class RobotContainer
     // public final DarthElevatorSubsystem m_darthElevator = new DarthElevatorSubsystem();
 
    private final JMaster m_joySticks = new JMaster(0, 1, "Logitech Gamepad");
+   
     // private final Joystick m_rightJoystick = new Joystick(1);
     // private final Joystick m_leftJoystick = new Joystick(0);
 //    private final Joystick m_joyStickO = new Joystick(1);
@@ -170,6 +173,7 @@ public class RobotContainer
         final InhaleCommand m_Inhale_2 = new InhaleCommand(m_hopper, m_intakeMotor);
         final InhaleExhale_1 m_Exhale_1 = new InhaleExhale_1(m_intakeActuator);
         final Exhale_2 m_Exhale_2 = new Exhale_2(m_intakeMotor, m_hopper);
+        final Inhale_3 m_Inhale_3 = new Inhale_3(m_intakeMotor);
         
           
     // For Gamepad in XInput mode
@@ -252,6 +256,8 @@ public class RobotContainer
         inhale.whileTrue(Commands.parallel(m_Inhale_1, /* Sends intake out */
         new RunCommand( () -> {}).withTimeout(0.5) /* 1/2 sec wait for intake to go out */
         .andThen(m_Inhale_2))); /* Starts intake rollers and hopper */
+
+        inhale.whileFalse(m_Inhale_3.withTimeout(0.75));
 
 
         // intakeInButton.whenPressed(new InstantCommand(() -> m_intakeActuator.intakeIn()));

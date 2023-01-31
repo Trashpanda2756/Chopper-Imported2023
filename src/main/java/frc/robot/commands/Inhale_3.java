@@ -5,41 +5,32 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.HoodFlywheels;
-import frc.robot.subsystems.LiftMotor;
+import frc.robot.subsystems.IntakeMotor;
 
-public class Fire_1 extends CommandBase {
+public class Inhale_3 extends CommandBase {
 
-  // Alocating Local Instances
-  HoodFlywheels m_hoodFlywheels;
-  LiftMotor m_liftMotor;
+  private final IntakeMotor m_IntakeMotor;
 
-  /** Creates a new Fire_1. */
-  public Fire_1(HoodFlywheels hoodFlywheels, LiftMotor liftMotor) {
+  /** Creates a new Inhale_3. */
+  public Inhale_3(IntakeMotor motor) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_hoodFlywheels = hoodFlywheels;
-    m_liftMotor = liftMotor;
+    m_IntakeMotor = motor;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_hoodFlywheels.flywheelOn();
-    m_liftMotor.ShooterLiftStart();
+    m_IntakeMotor.in();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    // m_hoodFlywheels.flywheelOn();
-    // m_liftMotor.ShooterLiftStart();
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_hoodFlywheels.flywheelOff();
-    m_liftMotor.ShooterLiftStop();
+    m_IntakeMotor.stop();
   }
 
   // Returns true when the command should end.
